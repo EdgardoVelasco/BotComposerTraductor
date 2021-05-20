@@ -1,0 +1,46 @@
+[import](common.lg)
+
+# SendActivity_ebahmh()
+[Activity
+    Text = Es hora de traducir
+]
+
+# SendActivity_i0stxN()
+[Activity
+    Text = Escribe a que idioma quieres traducir. Nota usa el ISO6391 para escribir el idioma. 
+]
+
+# TextInput_Prompt_x3WywR()
+[Activity
+    Text = Idioma: 
+]
+
+# TextInput_InvalidPrompt_x3WywR()
+[Activity
+    Text = Idioma incorrecto usa iso6391 ej. fr=frances, en=Inglés.
+]
+
+# SendActivity_09gB1h()
+[Activity
+    Text = El idioma a traducir es: ${user.idioma}
+]
+
+# TextInput_Prompt_2e5h3M()
+[Activity
+    Text = Escribe el texto a traducir
+]
+
+# TextInput_InvalidPrompt_2e5h3M()
+[Activity
+    Text = Escribe más de una letra porfavor
+]
+
+# SendActivity_yWDMbz()
+[Activity
+    Text = Algo paso con el servicio :(
+]
+
+# SendActivity_juI9Pu()
+[Activity
+    Text = traducción: ${user.traduccion}
+]

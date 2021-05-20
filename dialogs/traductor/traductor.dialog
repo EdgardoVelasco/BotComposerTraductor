@@ -1,0 +1,155 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "AzaObj",
+    "name": "traductor",
+    "description": "Este dialogo se activa cuando el usuario desee comenzar a traducir"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "jrKUMN"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "ebahmh"
+          },
+          "activity": "${SendActivity_ebahmh()}"
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "i0stxN"
+          },
+          "activity": "${SendActivity_i0stxN()}"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "x3WywR"
+          },
+          "disabled": false,
+          "maxTurnCount": 3,
+          "alwaysPrompt": false,
+          "allowInterruptions": false,
+          "unrecognizedPrompt": "",
+          "prompt": "${TextInput_Prompt_x3WywR()}",
+          "property": "user.idioma",
+          "validations": [
+            "length(this.value)==2"
+          ],
+          "invalidPrompt": "${TextInput_InvalidPrompt_x3WywR()}",
+          "defaultValue": "en",
+          "outputFormat": "= toLower(this.value)"
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "09gB1h"
+          },
+          "activity": "${SendActivity_09gB1h()}"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "2e5h3M"
+          },
+          "disabled": false,
+          "maxTurnCount": 3,
+          "alwaysPrompt": false,
+          "allowInterruptions": false,
+          "unrecognizedPrompt": "",
+          "prompt": "${TextInput_Prompt_2e5h3M()}",
+          "property": "user.texto",
+          "invalidPrompt": "${TextInput_InvalidPrompt_2e5h3M()}",
+          "validations": [
+            "length(this.value)>1"
+          ]
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "lgUBYI"
+          },
+          "method": "POST",
+          "url": "https://translatorenvf.cognitiveservices.azure.com/translator/text/v3.0/translate?to=${user.idioma}",
+          "body": [
+            {
+              "Text": "${user.texto}"
+            }
+          ],
+          "headers": {
+            "Ocp-Apim-Subscription-Key": "dd501fcfa9c64af2964baa3f45933cbf",
+            "Ocp-Apim-Subscription-Region": "eastus"
+          },
+          "responseType": "json",
+          "resultProperty": "dialog.resultado",
+          "contentType": "application/json"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "bnGHfp"
+          },
+          "condition": "=dialog.resultado.statusCode==200",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "yWDMbz"
+              },
+              "activity": "${SendActivity_yWDMbz()}"
+            },
+            {
+              "$kind": "Microsoft.DeleteProperties",
+              "$designer": {
+                "id": "cKYvKH"
+              },
+              "properties": [
+                "user.idioma",
+                "user.texto"
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "glGhHD"
+              },
+              "property": "user.traduccion",
+              "value": "=dialog.resultado.content[0].translations[0].text"
+            },
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "juI9Pu"
+              },
+              "activity": "${SendActivity_juI9Pu()}"
+            },
+            {
+              "$kind": "Microsoft.DeleteProperties",
+              "$designer": {
+                "id": "tYOYwg"
+              },
+              "properties": [
+                "user.idioma",
+                "user.texto"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "traductor.lg",
+  "recognizer": "traductor.lu.qna",
+  "id": "traductor"
+}
